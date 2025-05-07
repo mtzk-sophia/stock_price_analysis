@@ -139,7 +139,8 @@ def plot_candlestick_with_indicators_streamlit(df: pd.DataFrame, title: str = "�
             name='出来高',
             marker_color=colors,
             hoverinfo='text',
-            text=[f'日付: {date}<br>出来高: {y:,.0f}' for date, y in zip(df.index, df['Volume'])]
+            text=[f'日付: {date}<br>出来高: {y:,.0f}' for date, y in zip(df.index, df['Volume'])],
+            textposition='none'  # 棒グラフ内の数値を非表示
         ),
         row=2, col=1
     )
@@ -189,7 +190,8 @@ def plot_candlestick_with_indicators_streamlit(df: pd.DataFrame, title: str = "�
             name='Histogram',
             marker_color='gray',
             hoverinfo='text',
-            text=[f'日付: {date}<br>Histogram: {y:.1f}' for date, y in zip(df.index, df['MACD_Hist'])]
+            text=[f'日付: {date}<br>Histogram: {y:.1f}' for date, y in zip(df.index, df['MACD_Hist'])],
+            textposition='none'  # 棒グラフ内の数値を非表示
         ),
         row=4, col=1
     )
