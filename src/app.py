@@ -240,13 +240,13 @@ def main():
     
     st.title('株価チャート分析アプリ')
     
-    # 2カラムレイアウトで検索と期間選択を横並びに
-    col1, col2 = st.columns([2, 1])
+    # 3カラムレイアウトで選択肢を横並びに
+    col1, col2, col3 = st.columns([2, 2, 1])
+    
+    # 企業コードのリストを取得
+    stock_list = get_japanese_stock_list()
     
     with col1:
-        # 企業コードのリストを取得
-        stock_list = get_japanese_stock_list()
-        
         # 33業種区分のリストを取得（重複を除去）
         industries = sorted(stock_list['industry_33'].unique())
         
@@ -256,7 +256,8 @@ def main():
             options=industries,
             index=0
         )
-        
+    
+    with col2:
         # 選択された業種の企業のみをフィルタリング
         filtered_stocks = stock_list[stock_list['industry_33'] == selected_industry]
         
@@ -272,7 +273,7 @@ def main():
         )
         symbol = stock_options[selected_stock]
     
-    with col2:
+    with col3:
         # 期間選択
         period = st.selectbox(
             '期間を選択してください',
