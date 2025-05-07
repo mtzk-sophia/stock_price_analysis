@@ -246,9 +246,23 @@ def main():
     with col1:
         # 企業コードのリストを取得
         stock_list = get_japanese_stock_list()
+        
+        # 33業種区分のリストを取得（重複を除去）
+        industries = sorted(stock_list['industry_33'].unique())
+        
+        # 業種選択
+        selected_industry = st.selectbox(
+            '業種を選択してください',
+            options=industries,
+            index=0
+        )
+        
+        # 選択された業種の企業のみをフィルタリング
+        filtered_stocks = stock_list[stock_list['industry_33'] == selected_industry]
+        
         # 企業コードと企業名の組み合わせを作成
         stock_options = {f"{row['name']} ({row['code']})": row['yahoo_code'] 
-                        for _, row in stock_list.iterrows()}
+                        for _, row in filtered_stocks.iterrows()}
         
         # 企業選択
         selected_stock = st.selectbox(
