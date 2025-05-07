@@ -64,11 +64,9 @@ def plot_candlestick_with_indicators_streamlit(df: pd.DataFrame, title: str = "�
             low=df['Low'],
             close=df['Close'],
             name='ローソク足',
-            hovertext='<b>%{x}</b><br>' +
-                         '始値: %{open:.0f}<br>' +
-                         '高値: %{high:.0f}<br>' +
-                         '安値: %{low:.0f}<br>' +
-                         '終値: %{close:.0f}<extra></extra>'
+            hoverinfo='text',
+            text=[f'日付: {date}<br>始値: {open:.0f}<br>高値: {high:.0f}<br>安値: {low:.0f}<br>終値: {close:.0f}'
+                  for date, open, high, low, close in zip(df.index, df['Open'], df['High'], df['Low'], df['Close'])]
         ),
         row=1, col=1
     )
@@ -80,7 +78,8 @@ def plot_candlestick_with_indicators_streamlit(df: pd.DataFrame, title: str = "�
             y=df['SMA_5'],
             name='SMA5',
             line=dict(color='blue'),
-            hovertext='<b>%{x}</b><br>SMA5: %{y:.0f}<extra></extra>'
+            hoverinfo='text',
+            text=[f'日付: {date}<br>SMA5: {y:.0f}' for date, y in zip(df.index, df['SMA_5'])]
         ),
         row=1, col=1
     )
@@ -90,7 +89,8 @@ def plot_candlestick_with_indicators_streamlit(df: pd.DataFrame, title: str = "�
             y=df['SMA_25'],
             name='SMA25',
             line=dict(color='green'),
-            hovertext='<b>%{x}</b><br>SMA25: %{y:.0f}<extra></extra>'
+            hoverinfo='text',
+            text=[f'日付: {date}<br>SMA25: {y:.0f}' for date, y in zip(df.index, df['SMA_25'])]
         ),
         row=1, col=1
     )
@@ -100,7 +100,8 @@ def plot_candlestick_with_indicators_streamlit(df: pd.DataFrame, title: str = "�
             y=df['SMA_75'],
             name='SMA75',
             line=dict(color='red'),
-            hovertext='<b>%{x}</b><br>SMA75: %{y:.0f}<extra></extra>'
+            hoverinfo='text',
+            text=[f'日付: {date}<br>SMA75: {y:.0f}' for date, y in zip(df.index, df['SMA_75'])]
         ),
         row=1, col=1
     )
@@ -112,7 +113,8 @@ def plot_candlestick_with_indicators_streamlit(df: pd.DataFrame, title: str = "�
             y=df['BB_Upper'],
             name='BB Upper',
             line=dict(color='gray', dash='dash'),
-            hovertext='<b>%{x}</b><br>BB Upper: %{y:.0f}<extra></extra>'
+            hoverinfo='text',
+            text=[f'日付: {date}<br>BB Upper: {y:.0f}' for date, y in zip(df.index, df['BB_Upper'])]
         ),
         row=1, col=1
     )
@@ -122,7 +124,8 @@ def plot_candlestick_with_indicators_streamlit(df: pd.DataFrame, title: str = "�
             y=df['BB_Lower'],
             name='BB Lower',
             line=dict(color='gray', dash='dash'),
-            hovertext='<b>%{x}</b><br>BB Lower: %{y:.0f}<extra></extra>'
+            hoverinfo='text',
+            text=[f'日付: {date}<br>BB Lower: {y:.0f}' for date, y in zip(df.index, df['BB_Lower'])]
         ),
         row=1, col=1
     )
@@ -135,7 +138,8 @@ def plot_candlestick_with_indicators_streamlit(df: pd.DataFrame, title: str = "�
             y=df['Volume'],
             name='出来高',
             marker_color=colors,
-            hovertext='<b>%{x}</b><br>出来高: %{y:,.0f}<extra></extra>'
+            hoverinfo='text',
+            text=[f'日付: {date}<br>出来高: {y:,.0f}' for date, y in zip(df.index, df['Volume'])]
         ),
         row=2, col=1
     )
@@ -147,7 +151,8 @@ def plot_candlestick_with_indicators_streamlit(df: pd.DataFrame, title: str = "�
             y=df['RSI'],
             name='RSI',
             line=dict(color='purple'),
-            hovertext='<b>%{x}</b><br>RSI: %{y:.1f}<extra></extra>'
+            hoverinfo='text',
+            text=[f'日付: {date}<br>RSI: {y:.1f}' for date, y in zip(df.index, df['RSI'])]
         ),
         row=3, col=1
     )
@@ -161,7 +166,8 @@ def plot_candlestick_with_indicators_streamlit(df: pd.DataFrame, title: str = "�
             y=df['MACD'],
             name='MACD',
             line=dict(color='blue'),
-            hovertext='<b>%{x}</b><br>MACD: %{y:.1f}<extra></extra>'
+            hoverinfo='text',
+            text=[f'日付: {date}<br>MACD: {y:.1f}' for date, y in zip(df.index, df['MACD'])]
         ),
         row=4, col=1
     )
@@ -171,7 +177,8 @@ def plot_candlestick_with_indicators_streamlit(df: pd.DataFrame, title: str = "�
             y=df['MACD_Signal'],
             name='Signal',
             line=dict(color='red'),
-            hovertext='<b>%{x}</b><br>Signal: %{y:.1f}<extra></extra>'
+            hoverinfo='text',
+            text=[f'日付: {date}<br>Signal: {y:.1f}' for date, y in zip(df.index, df['MACD_Signal'])]
         ),
         row=4, col=1
     )
@@ -181,7 +188,8 @@ def plot_candlestick_with_indicators_streamlit(df: pd.DataFrame, title: str = "�
             y=df['MACD_Hist'],
             name='Histogram',
             marker_color='gray',
-            hovertext='<b>%{x}</b><br>Histogram: %{y:.1f}<extra></extra>'
+            hoverinfo='text',
+            text=[f'日付: {date}<br>Histogram: {y:.1f}' for date, y in zip(df.index, df['MACD_Hist'])]
         ),
         row=4, col=1
     )
