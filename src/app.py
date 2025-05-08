@@ -51,6 +51,11 @@ def plot_candlestick_with_indicators_streamlit(df: pd.DataFrame, title: str = "�
     golden_cross_dates = df.index[golden_cross]
     golden_cross_values = df.loc[golden_cross, 'MACD']
     
+    # MACDのデッドクロスを検出
+    dead_cross = (df['MACD'] < df['MACD_Signal']) & (df['MACD'].shift(1) >= df['MACD_Signal'].shift(1))
+    dead_cross_dates = df.index[dead_cross]
+    dead_cross_values = df.loc[dead_cross, 'MACD']
+    
     # サブプロットの作成
     fig = make_subplots(
         rows=4, cols=1,
@@ -217,6 +222,26 @@ def plot_candlestick_with_indicators_streamlit(df: pd.DataFrame, title: str = "�
             hoverinfo='text',
             text=[f'ゴールデンクロス<br>日付: {date}<br>MACD: {y:.1f}' 
                   for date, y in zip(golden_cross_dates, golden_cross_values)]
+        ),
+        row=4, col=1
+    )
+
+    # デッドクロスのマーカーを追加
+    fig.add_trace(
+        go.Scatter(
+            x=dead_cross_dates,
+            y=dead_cross_values,
+            mode='markers',
+            name='デッドクロス',
+            marker=dict(
+                symbol='triangle-down',
+                size=12,
+                color='lightgreen',
+                line=dict(color='black', width=1)
+            ),
+            hoverinfo='text',
+            text=[f'デッドクロス<br>日付: {date}<br>MACD: {y:.1f}' 
+                  for date, y in zip(dead_cross_dates, dead_cross_values)]
         ),
         row=4, col=1
     )
