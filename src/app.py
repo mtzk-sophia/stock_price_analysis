@@ -46,6 +46,11 @@ def plot_candlestick_with_indicators_streamlit(df: pd.DataFrame, title: str = "�
     # 日付を文字列に変換
     df.index = df.index.strftime('%Y-%m-%d')
     
+    # MACDのゴールデンクロスを検出
+    golden_cross = (df['MACD'] > df['MACD_Signal']) & (df['MACD'].shift(1) <= df['MACD_Signal'].shift(1))
+    golden_cross_dates = df.index[golden_cross]
+    golden_cross_values = df.loc[golden_cross, 'MACD']
+    
     # サブプロットの作成
     fig = make_subplots(
         rows=4, cols=1,
@@ -192,6 +197,26 @@ def plot_candlestick_with_indicators_streamlit(df: pd.DataFrame, title: str = "�
             hoverinfo='text',
             text=[f'日付: {date}<br>Histogram: {y:.1f}' for date, y in zip(df.index, df['MACD_Hist'])],
             textposition='none'  # 棒グラフ内の数値を非表示
+        ),
+        row=4, col=1
+    )
+
+    # ゴールデンクロスのマーカーを追加
+    fig.add_trace(
+        go.Scatter(
+            x=golden_cross_dates,
+            y=golden_cross_values,
+            mode='markers',
+            name='ゴールデンクロス',
+            marker=dict(
+                symbol='triangle-up',
+                size=12,
+                color='gold',
+                line=dict(color='black', width=1)
+            ),
+            hoverinfo='text',
+            text=[f'ゴールデンクロス<br>日付: {date}<br>MACD: {y:.1f}' 
+                  for date, y in zip(golden_cross_dates, golden_cross_values)]
         ),
         row=4, col=1
     )
